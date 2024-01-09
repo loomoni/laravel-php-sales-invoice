@@ -23,7 +23,7 @@
         @endif
 
         <div class="">
-            <a class="btn btn-primary" href="{{route('unit.index')}}"><i class="fa fa-edit"></i> Manage Unit</a>
+            <a class="btn btn-primary" href="{{ url('unit') }}"><i class="fa fa-edit"></i> Manage Unit</a>
         </div>
         <div class="row mt-2">
 
@@ -32,7 +32,7 @@
                 <div class="tile">
                     <h3 class="tile-title">Add Unit Form</h3>
                     <div class="tile-body">
-                        <form method="POST" action="{{route('unit.store')}}">
+                        <form method="POST" action="">
                             @csrf
                             <div class="form-group col-md-12">
                                 <label class="control-label">Unit Name</label>

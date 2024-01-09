@@ -19,7 +19,7 @@
             </ul>
         </div>
         <div class="">
-            <a class="btn btn-primary" href="{{route('supplier.create')}}"><i class="fa fa-plus"></i> Add Supplier</a>
+            <a class="btn btn-primary" href="{{ url('supplier/create') }}"><i class="fa fa-plus"></i> Add Supplier</a>
         </div>
 
         <div class="row mt-2">
@@ -44,11 +44,11 @@
                                 <td>{{ $supplier->mobile }} </td>
                                 <td>{{ $supplier->details }} </td>
                                  <td>
-                                    <a class="btn btn-primary btn-sm" href="{{route('supplier.edit', $supplier->id)}}"><i class="fa fa-edit" ></i></a>
+                                    <a class="btn btn-primary btn-sm" href="{{ url('supplier/edit', $supplier->id)}}"><i class="fa fa-edit" ></i></a>
                                     <button class="btn btn-danger btn-sm waves-effect" type="submit" onclick="deleteTag({{ $supplier->id }})">
                                         <i class="fa fa-trash-o"></i>
                                     </button>
-                                    <form id="delete-form-{{ $supplier->id }}" action="{{ route('supplier.destroy',$supplier->id) }}" method="POST" style="display: none;">
+                                    <form id="delete-form-{{ $supplier->id }}" action="{{ url('supplier/destroy',$supplier->id) }}" method="POST" style="display: none;">
                                         @csrf
                                         @method('DELETE')
                                     </form>

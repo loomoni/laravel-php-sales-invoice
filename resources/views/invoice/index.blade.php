@@ -19,7 +19,7 @@
             </ul>
         </div>
         <div class="">
-            <a class="btn btn-primary" href="{{route('invoice.create')}}"><i class="fa fa-plus"></i> Create New Invoice</a>
+            <a class="btn btn-primary" href="{{ url('invoice/create') }}"><i class="fa fa-plus"></i> Create New Invoice</a>
         </div>
 
         <div class="row mt-2">
@@ -43,13 +43,13 @@
                                      <td>{{$invoice->customer->name}}</td>
                                      <td>{{$invoice->created_at->format('Y-m-d')}}</td>
                                      <td>
-                                         <a class="btn btn-primary btn-sm" href="{{route('invoice.show', $invoice->id)}}"><i class="fa fa-eye" ></i></a>
-                                         <a class="btn btn-info btn-sm" href="{{route('invoice.edit', $invoice->id)}}"><i class="fa fa-edit" ></i></a>
+                                         <a class="btn btn-primary btn-sm" href="{{url('invoice.show', $invoice->id)}}"><i class="fa fa-eye" ></i></a>
+                                         <a class="btn btn-info btn-sm" href="{{url('invoice.edit', $invoice->id)}}"><i class="fa fa-edit" ></i></a>
 
                                          <button class="btn btn-danger btn-sm waves-effect" type="submit" onclick="deleteTag({{ $invoice->id }})">
                                              <i class="fa fa-trash"></i>
                                          </button>
-                                         <form id="delete-form-{{ $invoice->id }}" action="{{ route('invoice.destroy',$invoice->id) }}" method="POST" style="display: none;">
+                                         <form id="delete-form-{{ $invoice->id }}" action="{{ url('invoice.destroy',$invoice->id) }}" method="POST" style="display: none;">
                                              @csrf
                                              @method('DELETE')
                                          </form>

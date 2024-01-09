@@ -23,7 +23,7 @@
         @endif
 
         <div class="">
-            <a class="btn btn-primary" href="{{route('customer.index')}}"><i class="fa fa-edit"> </i>Manage Customers</a>
+            <a class="btn btn-primary" href="{{ url('customer') }}"><i class="fa fa-edit"> </i>Manage Customers</a>
         </div>
         <div class="row mt-2">
 
@@ -32,7 +32,7 @@
                 <div class="tile">
                     <h3 class="tile-title">Customer</h3>
                     <div class="tile-body">
-                        <form method="POST" action="{{route('customer.store')}}">
+                        <form method="POST" action="">
                             @csrf
                             <div class="form-group col-md-12">
                                 <label class="control-label">Customer Name</label>

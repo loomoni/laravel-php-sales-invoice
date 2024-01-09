@@ -23,7 +23,7 @@
         @endif
 
         <div class="">
-            <a class="btn btn-primary" href="{{route('product.index')}}"><i class="fa fa-edit"></i> Manage Product</a>
+            <a class="btn btn-primary" href="{{ url('products') }}"><i class="fa fa-edit"></i> Manage Product</a>
         </div>
         <div class="row mt-2">
 
@@ -41,7 +41,7 @@
                                 </ul>
                             </div>
                         @endif
-                        <form method="POST" action="{{route('product.store')}}" enctype="multipart/form-data">
+                        <form method="POST" action="" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="form-group col-md-6">

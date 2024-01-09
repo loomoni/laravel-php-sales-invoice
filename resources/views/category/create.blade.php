@@ -23,7 +23,7 @@
         @endif
 
         <div class="">
-            <a class="btn btn-primary" href="{{route('category.index')}}"><i class="fa fa-cogs"></i> Manage Categories</a>
+            <a class="btn btn-primary" href="{{ url('categories') }}"><i class="fa fa-cogs"></i> Manage Categories</a>
         </div>
         <div class="row mt-2">
 
@@ -32,7 +32,7 @@
                 <div class="tile">
                     <h3 class="tile-title">Category</h3>
                     <div class="tile-body">
-                        <form method="POST" action="{{route('category.store')}}">
+                        <form method="POST" action="">
                             @csrf
                             <div class="form-group col-md-12">
                                 <label class="control-label">Category Name</label>

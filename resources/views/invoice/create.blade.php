@@ -23,7 +23,7 @@
                 <div class="tile">
                     <h3 class="tile-title">Invoice</h3>
                     <div class="tile-body">
-                        <form  method="POST" action="{{route('invoice.store')}}">
+                        <form  method="POST" action="">
                             @csrf
                             <div class="form-group col-md-3">
                                 <label class="control-label">Customer Name</label>
@@ -125,7 +125,7 @@
                 var dataId = {'id':id};
                 $.ajax({
                     type    : 'GET',
-                    url     :'{!! URL::route('findPrice') !!}',
+                    url: '/find-price',
 
                     dataType: 'json',
                     data: {"_token": $('meta[name="csrf-token"]').attr('content'), 'id':id},
