@@ -21,7 +21,7 @@
                     <section class="invoice">
                         <div class="row mb-4">
                             <div class="col-6">
-                                <h2 class="page-header"><i class="fa fa-file"></i> I M S</h2>
+                                <h2 class="page-header"><i class="fa fa-file"></i> A T T W O O D</h2>
                             </div>
                             <div class="col-6">
                                 <h5 class="text-right">Date: {{$invoice->created_at->format('Y-m-d')}}</h5>
@@ -32,7 +32,8 @@
                                 <address><strong>CodeAstro</strong><br>Demo,<br>Address<br>codeastro.com</address>
                             </div>
                             <div class="col-4">To
-                                 <address><strong>{{$invoice->customer->name}}</strong><br>{{$invoice->customer->address}}<br>Phone: {{$invoice->customer->mobile}}<br>Email: {{$invoice->customer->email}}</address>
+                                Address
+                                 {{-- <address><strong>{{$invoice->invoice_id}}</strong><br>{{$invoice->customer->address}}<br>Phone: {{$invoice->customer->mobile}}<br>Email: {{$invoice->customer->email}}</address> --}}
                              </div>
                             <div class="col-4"><b>Invoice #{{1000+$invoice->id}}</b><br><br><b>Order ID:</b> 4F3S8J<br><b>Payment Due:</b> {{$invoice->created_at->format('Y-m-d')}}<br><b>Account:</b> 000-12345</div>
                         </div>
@@ -54,11 +55,11 @@
                                     </div>
                                     @foreach($sales as $sale)
                                     <tr>
-                                        <td>{{$sale->product->name}}</td>
-                                        <td>{{$sale->qty}}</td>
-                                        <td>{{$sale->price}}</td>
-                                        <td>{{$sale->dis}}%</td>
-                                        <td>{{$sale->amount}}</td>
+                                        <td>{{ $sale->product_id }}</td>
+                                        <td>{{ $sale->qty }}</td>
+                                        <td>{{ $sale->price }}</td>
+                                        <td>{{ $sale->dis }}%</td>
+                                        <td>{{ $sale->amount }}</td>
                                         <div style="display: none">
                                             {{$total +=$sale->amount}}
                                         </div>

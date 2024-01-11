@@ -80,4 +80,8 @@ class HomeController extends Controller
              'lastWeekSales' =>$lastWeekSales,
         ]);
     }
+    public function edit_profile()
+    {
+        return view('profile.edit_profile');
+    }
 }

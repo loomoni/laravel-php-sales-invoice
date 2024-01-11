@@ -1,6 +1,14 @@
 @extends('layouts.master')
 
 @section('title', 'Invoice | ')
+<style>
+    .no-border {
+        border: none !important;
+        border-right: none !important;
+        border-bottom: none !important;
+        border-left: none !important;
+    }
+</style>
 @section('content')
     @include('partials.header')
     @include('partials.sidebar')
@@ -46,41 +54,59 @@
                                 <th scope="col">Product</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Price</th>
+                                <th scope="col">Taxes</th>
                                 <th scope="col">Discount %</th>
                                 <th scope="col">Amount</th>
-                                <th scope="col"><a class="addRow badge badge-success text-white"><i class="fa fa-plus"></i> Add Row</a></th>
+                                <th scope="col">Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
                                 <td><select name="product_id[]" class="form-control productname" >
                                         <option>Select Product</option>
-                                    @foreach($products as $product)
-                                            <option name="product_id[]" value="{{$product->id}}">{{$product->name}}</option>
+                                        @foreach($products as $product)
+                                            <option name="product_id[]" value="{{$product->id}}">
+                                                {{$product->name}}
+                                            </option>
                                         @endforeach
-                                    </select></td>
-                                <td><input type="text" name="qty[]" class="form-control qty" ></td>
-                                <td><input type="text" name="price[]" class="form-control price" ></td>
-                                <td><input type="text" name="dis[]" class="form-control dis" ></td>
+                                    </select>
+                                </td>
+                                <td><input type="text" name="qty[]" class="form-control qty"></td>
+                                <td><input type="text" name="price[]" class="form-control price"></td>
+                                <td><input type="text" name="tax[]" class="form-control tax"></td>
+                                <td><input type="text" name="dis[]" class="form-control dis"></td>
                                 <td><input type="text" name="amount[]" class="form-control amount" ></td>
-                                <td><a   class="btn btn-danger remove"> <i class="fa fa-remove"></i></a></td>
+                                <td><a class="btn btn-danger remove"> <i class="fa fa-remove"></i></a></td>
                              </tr>
                             </tbody>
+                            
                             <tfoot>
+                            {{-- <br/> --}}
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td><b>Total</b></td>
-                                <td><b class="total"></b></td>
-                                <td></td>
+                                <td class="no-border"></td>
+                                <td class="no-border"></td>
+                                <td class="no-border"></td>
+                                <td class="no-border"></td>
+                                <td class="no-border">
+                                    <b>Untaxed Amount</b> <br/><br/>
+                                    <b>Taxed Amount</b>
+                                    <hr/>
+                                    <b>Total</b>
+                                </td>
+                                <td class="no-border">
+                                    <b class="total"></b> <br/><br/>
+                                    <p class="total"></p>
+                                    <hr/>
+                                    <b class="total"></b>
+                              
+                                <th scope="col" class="no-border"><a class="addRow badge badge-success text-white" style="cursor: pointer;"><i class="fa fa-plus"></i> Add Row</a></th>
                             </tr>
                             </tfoot>
 
                         </table>
 
                             <div >
-                                <button class="btn btn-primary" type="submit">Submit</button>
+                                <button class="btn btn-primary" type="submit" style="width: 100px;">Save</button>
                             </div>
                      </form>
                     </div>
@@ -108,9 +134,6 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-
-
-
             $('tbody').delegate('.productname', 'change', function () {
 
                 var  tr = $(this).parent().parent();
@@ -119,40 +142,74 @@
             })
 
             $('tbody').delegate('.productname', 'change', function () {
+                            var tr = $(this).parent().parent();
+                            var id = tr.find('.productname').val();
+                            var dataId = {'id': id};
+                            $.ajax({
+                                type: 'GET',
+                                url: '/findPrice', // Provide the URL directly
 
-                var tr =$(this).parent().parent();
-                var id = tr.find('.productname').val();
-                var dataId = {'id':id};
-                $.ajax({
-                    type    : 'GET',
-                    url: '/find-price',
+                                dataType: 'json',
+                                data: {"_token": $('meta[name="csrf-token"]').attr('content'), 'id': id},
+                                success: function (data) {
+                                    tr.find('.price').val(data.sales_price);
+                                }
+                            });
+                        });
 
-                    dataType: 'json',
-                    data: {"_token": $('meta[name="csrf-token"]').attr('content'), 'id':id},
-                    success:function (data) {
-                        tr.find('.price').val(data.sales_price);
-                    }
-                });
-            });
+                    
+            $('tbody').delegate('.productname', 'change', function () {
+                            var tr = $(this).parent().parent();
+                            var id = tr.find('.productname').val();
+                            var dataId = {'id': id};
+                            $.ajax({
+                                type: 'GET',
+                                url: '/findTax', // Provide the URL directly
 
-            $('tbody').delegate('.qty,.price,.dis', 'keyup', function () {
+                                dataType: 'json',
+                                data: {"_token": $('meta[name="csrf-token"]').attr('content'), 'id': id},
+                                success: function (data) {
+                                    tr.find('.tax').val(0.18);
+                                }
+                            });
+                        });
+
+
+
+            $('tbody').delegate('.qty,.price,.dis,.tax', 'keyup', function () {
 
                 var tr = $(this).parent().parent();
                 var qty = tr.find('.qty').val();
                 var price = tr.find('.price').val();
                 var dis = tr.find('.dis').val();
-                var amount = (qty * price)-(qty * price * dis)/100;
+                var tax = tr.find('.tax').val();
+                var amount = (qty * price * tax)-(qty * price * dis * tax)/100;
                 tr.find('.amount').val(amount);
                 total();
             });
-            function total(){
+
+            // function total(){
+            //     var total = 0;
+            //     $('.amount').each(function (i,e) {
+            //         var amount =$(this).val()-0;
+            //         total += amount;
+            //     })
+            //     $('.total').html(total);
+            // }
+
+            function total() {
                 var total = 0;
-                $('.amount').each(function (i,e) {
-                    var amount =$(this).val()-0;
+                $('.amount').each(function (i, e) {
+                    var amount = parseFloat($(this).val()) || 0; // Parse the value as a float
                     total += amount;
-                })
-                $('.total').html(total);
+                });
+
+                // Format total as float with commas in three-digit groups
+                var formattedTotal = total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                
+                $('.total').html(formattedTotal);
             }
+
 
             $('.addRow').on('click', function () {
                 addRow();
@@ -169,6 +226,7 @@
                     '               </select></td>\n' +
 '                                <td><input type="text" name="qty[]" class="form-control qty" ></td>\n' +
 '                                <td><input type="text" name="price[]" class="form-control price" ></td>\n' +
+'                                <td><input type="text" name="tax[]" class="form-control tax" ></td>\n' +
 '                                <td><input type="text" name="dis[]" class="form-control dis" ></td>\n' +
 '                                <td><input type="text" name="amount[]" class="form-control amount" ></td>\n' +
 '                                <td><a   class="btn btn-danger remove"> <i class="fa fa-remove"></i></a></td>\n' +

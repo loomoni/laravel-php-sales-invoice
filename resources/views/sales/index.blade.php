@@ -19,7 +19,7 @@
             </ul>
         </div>
         <div class="">
-            <a class="btn btn-primary" href="{{route('invoice.create')}}"><i class="fa fa-plus"></i> Create New Invoice</a>
+            <a class="btn btn-primary" href="{{ url('invoice/create') }}"><i class="fa fa-plus"></i> Create New Invoice</a>
         </div>
 
         <div class="row mt-2">
@@ -39,7 +39,7 @@
                             <tbody>
             @foreach($sales as $sale)
                 <tr>
-                    <td>{{ $sale->product->name }}</td>
+                    <td>{{ $sale->product_name }}</td>
                     <td>{{ $sale->qty }}</td>
                     <td>{{ $sale->price }}</td>
                     <td>{{ $sale->amount }}</td>

@@ -29,32 +29,38 @@
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead>
                             <tr>
-                                <th>Invoice ID </th>
+                                <th style="width: 10%">Invoice ID </th>
                                 <th>Customer Name </th>
                                 <th>Date </th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                              <tbody>
-
+                                <?php $count = 0?>
                              @foreach($invoices as $invoice)
-                                 <tr>
-                                     <td>{{1000+$invoice->id}}</td>
-                                     <td>{{$invoice->customer->name}}</td>
-                                     <td>{{$invoice->created_at->format('Y-m-d')}}</td>
-                                     <td>
-                                         <a class="btn btn-primary btn-sm" href="{{url('invoice.show', $invoice->id)}}"><i class="fa fa-eye" ></i></a>
-                                         <a class="btn btn-info btn-sm" href="{{url('invoice.edit', $invoice->id)}}"><i class="fa fa-edit" ></i></a>
+                                <?php $count++?>
+                                <tr>
+                                    <td>{{ $count }}</td>
+                                    <td>{{ $invoice->customer_name }}</td>
+                                    @if (!empty($invoice->created_at))
+                                     <td>{{ $invoice->created_at->format('Y-m-d') }}</td>
+                                    @else
+                                      <td>{{ $invoice->created_at}}</td>
+                                    @endif
 
-                                         <button class="btn btn-danger btn-sm waves-effect" type="submit" onclick="deleteTag({{ $invoice->id }})">
-                                             <i class="fa fa-trash"></i>
-                                         </button>
-                                         <form id="delete-form-{{ $invoice->id }}" action="{{ url('invoice.destroy',$invoice->id) }}" method="POST" style="display: none;">
-                                             @csrf
-                                             @method('DELETE')
-                                         </form>
-                                     </td>
-                                 </tr>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm" href="{{ url('invoice/show', $invoice->id) }}"><i class="fa fa-eye" ></i></a>
+                                        <a class="btn btn-info btn-sm" href="{{ url('invoice/edit', $invoice->id) }}"><i class="fa fa-edit" ></i></a>
+
+                                        <button class="btn btn-danger btn-sm waves-effect" type="submit" onclick="deleteTag({{ $invoice->id }})">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                        <form id="delete-form-{{ $invoice->id }}" action="{{ url('invoice.destroy',$invoice->id) }}" method="POST" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                    </td>
+                                </tr>
                              @endforeach
                             </tbody>
                         </table>

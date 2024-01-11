@@ -13,8 +13,8 @@ class InvoiceController extends Controller
 {
     public function index()
     {
-        $invoices = Invoice::all();
-        return view('invoice.index', compact('invoices'));
+        $invoices['invoices'] = Invoice::getInvoices();
+        return view('invoice.index', $invoices);
     }
  
     public function Create()
@@ -54,13 +54,25 @@ class InvoiceController extends Controller
 
          }
 
-         return redirect('invoice/'.$invoice->id)->with('message','Invoice created Successfully');
+         return redirect('invoice/show/'.$invoice->id)->with('message','Invoice created Successfully');
 
 
     }
 
-    public function findPrice(Request $request){
+    public function findPrice(Request $request)
+    {
         $data = DB::table('products')->select('sales_price')->where('id', $request->id)->first();
         return response()->json($data);
     }
+
+    public function showInvoice($id)
+    {
+        $invoice = Invoice::findOrFail($id);
+        $sales = Sale::where('invoice_id', $id)->get();
+        return view('invoice.show', compact('invoice','sales'));
+
+    }
+
+
+
 }

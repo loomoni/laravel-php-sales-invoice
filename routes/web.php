@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\UnitController;
@@ -40,11 +41,13 @@ Route::post('reset/{token}', [AuthController::class, 'PostReset']);
 Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/dashboard', [HomeController::class, 'index']);
+    Route::get('/edit_profile', [HomeController::class, 'edit_profile']);
 
     // Tax Route
     Route::get('tax', [TaxController::class, 'index']);
     Route::get('tax/create', [TaxController::class, 'Create']);
     Route::post('tax/create', [TaxController::class, 'Store']);
+    Route::get('findTax', [TaxController::class, 'findTax']);
 
 
     // Categories Route
@@ -67,7 +70,12 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('invoice', [InvoiceController::class, 'index']);
     Route::get('invoice/create', [InvoiceController::class, 'Create']);
     Route::post('invoice/create', [InvoiceController::class, 'Store']);
+    Route::get('invoice/show/{id}', [InvoiceController::class, 'showInvoice']);
     Route::get('findPrice', [InvoiceController::class, 'findPrice']);
+    // Route::get('/findPrice', 'InvoiceController@findPrice')->name('findPrice');
+
+    //Sales Route
+    Route::get('sales', [SalesController::class, 'index']);
 
     //Supplier Route
     Route::get('suppliers', [SupplierController::class, 'index']);

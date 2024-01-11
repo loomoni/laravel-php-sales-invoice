@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tax;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class TaxController extends Controller
@@ -33,5 +34,12 @@ class TaxController extends Controller
 
     return redirect()->back()->with('message', 'Tax Created Successfully');
 
+   }
+
+       
+   public function findTax(Request $request)
+   {
+       $data = DB::table('taxes')->select('name')->where('id', $request->id)->first();
+       return response()->json($data);
    }
 }

@@ -36,7 +36,7 @@
                                     <p><span class="badge badge-dark">{{ Auth::user()->fullname }}</span></p>
                                   </div>
                              </div>
-                            <form action="{{route('update_profile', Auth::user()->id)}}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ url('update_profile', Auth::user()->id) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                  <div class="form-group">
                                     <label for="Inputfname">First Name</label>
